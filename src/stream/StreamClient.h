@@ -20,7 +20,7 @@
 
 // Forward declarations for generated proto types.
 // The actual header is included in StreamClient.cc.
-namespace zion { namespace stream {
+namespace acadia { namespace stream {
     class ClientMessage;
     class ServerMessage;
 }}  // namespace acadia::stream
