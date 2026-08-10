@@ -1,50 +1,24 @@
-# Phase 8 — Verification
-
-## Build Instructions
-
-```bash
-cd /home/sandesh/work/Zion/Zion-Client
-mkdir -p build && cd build
-
-# Configure (host build for local unit tests)
-cmake .. \
-  -DBUILD_TESTS=ON \
-  -DCMAKE_BUILD_TYPE=Debug
-
-# Build everything
-make -j$(nproc)
-
-# Run unit tests
-ctest --output-on-failure
-
-# Run audit greps
-grep -rn "\.passed\b"         ../src/ ../tests/
-grep -rn "output\.data\b"     ../src/ ../tests/
-grep -rn "duration<double>"   ../src/ ../tests/
-grep -rn "duration<float>"    ../src/ ../tests/
-grep -rn "sequence\s*="       ../src/ | grep -v RunOrchestrator
-grep -rn "timestamp\s*="      ../src/ | grep -v RunOrchestrator
-```
-
-Expected outputs:
+# Phase 8 — Verification ## Build Instructions ```bash
+cd/home/sandesh/work/Zion/Zion-Client
+mkdir -p build && cd build # Configure (host build for local unit tests)
+cmake .. \ -DBUILD_TESTS=ON \ -DCMAKE_BUILD_TYPE=Debug # Build everything
+make -j$(nproc) # Run unit tests
+ctest --output-on-failure # Run audit greps
+grep -rn "\.passed\b" ../src/ ../tests/
+grep -rn "output\.data\b" ../src/ ../tests/
+grep -rn "duration<double>" ../src/ ../tests/
+grep -rn "duration<float>" ../src/ ../tests/
+grep -rn "sequence\s*=" ../src/ | grep -v RunOrchestrator
+grep -rn "timestamp\s*=" ../src/ | grep -v RunOrchestrator
+``` Expected outputs:
 - Audit greps: **0 lines** in active code paths.
 - `make`: **0 errors, 0 warnings** on new files.
-- `ctest`: all tests **PASSED**.
-
-## Known Issues Resolved Before Build
-
-### Digit separators in test file
+- `ctest`: all tests **PASSED**. ## Known Issues Resolved Before Build ### Digit separators in test file
 `tests/test_result_serializer.cc` originally used `std::chrono::seconds(1_000_000_000LL)`.
 C++ digit separators use `'` (apostrophe), not `_` (underscore). Changed to
-`std::chrono::seconds(1'000'000'000LL)`.
-
-### HAL include path
+`std::chrono::seconds(1'000'000'000LL)`. ### HAL include path
 CMakeLists.txt now adds `${CMAKE_SOURCE_DIR}/../Zion-HAL/src` to include dirs so
-`#include "lib_base.h"` resolves on the host as well.
-
-## Test Summary
-
-### `test_result_serializer` (unit)
+`#include "lib_base.h"` resolves on the host as well. ## Test Summary ### `test_result_serializer` (unit)
 | Test | Description |
 |------|-------------|
 | RoundTripStatus_All | All 6 hal::Status values round-trip through proto |
@@ -65,9 +39,7 @@ CMakeLists.txt now adds `${CMAKE_SOURCE_DIR}/../Zion-HAL/src` to include dirs so
 | FarPastTimestamp | Far-past timestamp (year 1900) round-trips |
 | NegativeDuration_Clamped | Negative duration → 0 with CLAMP log |
 | UnspecifiedStatus_ToError | Inbound TEST_STATUS_UNSPECIFIED → ERROR |
-| UnspecifiedSeverity_ToInfo | Inbound TEST_SEVERITY_UNSPECIFIED → INFO |
-
-### `test_run_orchestrator` (integration)
+| UnspecifiedSeverity_ToInfo | Inbound TEST_SEVERITY_UNSPECIFIED → INFO | ### `test_run_orchestrator` (integration)
 | Test | Description |
 |------|-------------|
 | SingleShotSequenceIsZero | First and only result has sequence=0 |

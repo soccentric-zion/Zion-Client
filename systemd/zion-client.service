@@ -4,26 +4,20 @@ Documentation=https://github.com/SiliconCentric/Zion-Client
 After=network-online.target
 Wants=network-online.target
 StartLimitIntervalSec=60
-StartLimitBurst=5
-
-[Service]
+StartLimitBurst=5 [Service]
 Type=simple
 User=zion
 Group=zion
 WorkingDirectory=/var/lib/zion
 # Starts BOTH listeners:
-#   - ClientService (stream path → Server, default port 50051)
-#   - HalService    (SDK/E2E path,          default port 50052)
+# - ClientService (stream path → Server, default port 50051)
+# - HalService (SDK/E2E path, default port 50052)
 ExecStart=/usr/bin/zion-client
 Restart=on-failure
-RestartSec=5
-
-# Logging
+RestartSec=5 # Logging
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=zion-client
-
-# Hardening
+SyslogIdentifier=zion-client # Hardening
 NoNewPrivileges=yes
 ProtectSystem=full
 PrivateTmp=yes
@@ -31,7 +25,5 @@ ReadWritePaths=/var/lib/zion
 ProtectHome=yes
 ProtectKernelTunables=yes
 ProtectKernelModules=yes
-ProtectControlGroups=yes
-
-[Install]
+ProtectControlGroups=yes [Install]
 WantedBy=multi-user.target

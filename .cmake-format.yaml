@@ -1,30 +1,15 @@
 line_width: 120
 tab_size: 4
 use_tabchars: false
-fractional_tab_policy: use-space
-
-# argument formatting
+fractional_tab_policy: use-space # argument formatting
 max_pargs_hwrap: 4
 max_subgroups_hwrap: 4
-dangle_parens: true
-
-# indentation
+dangle_parens: true # indentation
 separate_ctrl_name_with_space: false
-separate_fn_name_with_space: false
-
-# command case
-command_case: lower
-
-# keyword case
-keyword_case: upper
-
-# layout
-enable_sort: false
-
-# spacing
+separate_fn_name_with_space: false # command case
+command_case: lower # keyword case
+keyword_case: upper # layout
+enable_sort: false # spacing
 min_prefix_chars: 4
-max_prefix_chars: 10
-
-# comments
-autosort: false
-
+max_prefix_chars: 10 # comments
+autosort: false 
