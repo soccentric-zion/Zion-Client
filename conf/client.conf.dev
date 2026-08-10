@@ -1,0 +1,40 @@
+# Zion-Client development configuration
+# Local development version with paths that don't require root
+
+# ---------------------------------------------------------------------------
+# gRPC server (outbound — connects to Zion-Server)
+# ---------------------------------------------------------------------------
+
+server_address = "127.0.0.1"   # localhost for development
+server_port    = 50051
+
+# ---------------------------------------------------------------------------
+# HalService listener (inbound — PySDK connects to this Client port)
+# ---------------------------------------------------------------------------
+
+hal_service_bind = "127.0.0.1"  # localhost only for development
+hal_service_port = 50052
+
+# ---------------------------------------------------------------------------
+# Spool (durability store) - LOCAL PATHS for development
+# ---------------------------------------------------------------------------
+
+spool_path             = "./data/spool/spool.db"
+result_spool_cap_bytes = 2147483648   # 2 GiB
+log_spool_cap_bytes    = 524288000    # 500 MiB
+
+# ---------------------------------------------------------------------------
+# TLS (leave empty for plaintext — lab-subnet default in v1)
+# ---------------------------------------------------------------------------
+
+# tls_ca   = "/etc/zion/ca.crt"
+# tls_cert = "/etc/zion/client.crt"
+# tls_key  = "/etc/zion/client.key"
+
+# ---------------------------------------------------------------------------
+# Extra log paths to tail and forward to the server
+# ---------------------------------------------------------------------------
+
+# log_paths = [
+#   "./data/logs/hal.log",
+# ]

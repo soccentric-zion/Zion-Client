@@ -1,0 +1,16 @@
+---
+Language: Cpp
+BasedOnStyle: Microsoft
+
+IndentWidth: 4
+ColumnLimit: 140
+PointerAlignment: Left
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: true
+  AfterControlStatement: false
+  BeforeElse: false
+
+NamespaceIndentation: None
+SortIncludes: true
