@@ -1,3 +1,44 @@
+# Zion-Client
+
+## Project Summary
+
+The deployment-facing files and update notes should be read with the implementation when assessing operational readiness.
+
+The daemon's claims are therefore layered: source presence indicates an implementation surface, named unit tests indicate intended automated checks, and a passing build indicates compilation only. Connectivity and hardware behavior need separate evidence.
+
+Zion-Client is a C++17 embedded-Linux daemon that runs hardware verification workloads and reports results to Zion-Server. The repository provides a native CMake build, Makefile helpers, Docker cross-compilation support, sample configuration, a systemd unit, and GoogleTest-based tests. Its source areas cover configuration loading, an outbound server stream, a SQLite spool, run orchestration, a module registry, HAL bridging, a Python-SDK-facing gRPC service, log collection, cleanup, and diagnostics. The client sits between board capabilities exposed by Zion-HAL and fleet-facing services exposed by Zion-Server. Existing documentation describes bidirectional gRPC, heartbeat/reconnect behavior, protobuf result serialization, durable buffering during interrupted links, and module-specific adapter dispatch. Unsupported modules can use a stub path, so a requested test is not automatically evidence of a working hardware implementation. Configuration is TOML-based and includes server addressing, the HAL listener, spool limits, optional TLS files, and extra log paths. The documented validation path is a configured native build followed by `ctest --output-on-failure`; Docker targets cover ARM64 builds. This README records observable repository features, but does not claim that a board, server connection, or physical peripheral was manually exercised. Paths and commands below are starting points for repeatable verification.
+
+## Feature Status
+
+| # | Name / Description | Implemented? | Test Coverage? | Manual Test |
+|---:|---|---|---|---|
+| 1 | CMake/Make build and install layout | Implemented | Build configuration present; run required | [ ] Manual verification required |
+| 2 | TOML client configuration and sample config | Implemented | Unit coverage not established | [ ] Manual verification required |
+| 3 | Outbound gRPC stream to Zion-Server | Implemented | Test files exist; integration unknown | [ ] Manual verification required |
+| 4 | SQLite result/log spool with capacity controls | Implemented | Serializer/spool evidence; full coverage unknown | [ ] Manual verification required |
+| 5 | Run orchestration and adapter dispatch | Implemented | `test_run_orchestrator` documented; breadth unknown | [ ] Manual verification required |
+| 6 | Protobuf result serialization | Implemented | `test_result_serializer` documented | [ ] Manual verification required |
+| 7 | HAL gRPC service for SDK callers | Implemented | Test coverage not independently verified | [ ] Manual verification required |
+| 8 | Log collection and forwarding | Partial | Source/config evidence; dedicated coverage unknown | [ ] Manual verification required |
+| 9 | Module registry and supported adapters | Partial | Registry tests not confirmed | [ ] Manual verification required |
+| 10 | Diagnostics socket and janitor cleanup | Partial | Dedicated test coverage unknown | [ ] Manual verification required |
+| 11 | TLS configuration | Partial | Fields documented; end-to-end proof absent | [ ] Manual verification required |
+| 12 | Systemd deployment | Implemented | Unit file present; boot not verified | [ ] Manual verification required |
+| 13 | Docker cross-compilation helpers | Implemented | Scripts present; target build not run | [ ] Manual verification required |
+
+## Tests and Commands
+
+```bash
+make configure
+make build
+cd build/native && ctest --output-on-failure
+```
+
+The repository documents `test_result_serializer` and `test_run_orchestrator`. A live test needs Zion-Server, Zion-HAL, configuration, and hardware or a representative environment.
+
+## Limitations
+
+Manual hardware, network, TLS, systemd, Docker, and cross-target verification remains outstanding. Documented module counts and platform claims are assertions until checked against the current build and board.
 # Zion-Client > **gRPC-based daemon for IV&V (Independent Verification & Validation) hardware testing on embedded Linux platforms** Zion-Client is a C++17 daemon that orchestrates hardware validation tests, collects results, and streams them to an Zion-Server instance. It manages test execution, durable result storage, log collection, and provides gRPC endpoints for both server communication and SDK integration. --- ## Table of Contents - [Overview](#overview)
 - [Architecture](#architecture)
 - [System Requirements](#system-requirements)
