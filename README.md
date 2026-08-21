@@ -39,6 +39,10 @@ The repository documents `test_result_serializer` and `test_run_orchestrator`. A
 ## Limitations
 
 Manual hardware, network, TLS, systemd, Docker, and cross-target verification remains outstanding. Documented module counts and platform claims are assertions until checked against the current build and board.
+
+## Detailed Reference
+
+The retained implementation guide below contains the repository's extended architecture, configuration, build, and runtime notes.
 # Zion-Client > **gRPC-based daemon for IV&V (Independent Verification & Validation) hardware testing on embedded Linux platforms** Zion-Client is a C++17 daemon that orchestrates hardware validation tests, collects results, and streams them to an Zion-Server instance. It manages test execution, durable result storage, log collection, and provides gRPC endpoints for both server communication and SDK integration. --- ## Table of Contents - [Overview](#overview)
 - [Architecture](#architecture)
 - [System Requirements](#system-requirements)
