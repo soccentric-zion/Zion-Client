@@ -37,8 +37,19 @@ if [[ "${HERDR_ENV:-}" == "1" ]]; then
     die "already running inside a Herdr pane — detach first (or use \`herdr session attach\` from outside)."
 fi
 
-command -v herdr >/dev/null 2>&1 ||
-    die "herdr not found on PATH — install it with: curl -fsSL https://herdr.dev/install.sh | sh"
+if ! command -v herdr >/dev/null 2>&1; then
+    note "herdr not found on PATH — installing it."
+    command -v curl >/dev/null 2>&1 ||
+        die "curl is required to install herdr — install it manually with: curl -fsSL https://herdr.dev/install.sh | sh"
+    curl -fsSL https://herdr.dev/install.sh | sh ||
+        die "herdr installation failed — install it manually with: curl -fsSL https://herdr.dev/install.sh | sh"
+    # Installers commonly target ~/.local/bin or ~/bin, which may not be on
+    # PATH in this shell — make sure they are visible before giving up.
+    export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+    command -v herdr >/dev/null 2>&1 ||
+        die "herdr is still not on PATH after installation — add its bin dir to PATH and retry."
+    note "herdr installed."
+fi
 
 # ── Tier detection ────────────────────────────────────────────────────────────
 if [[ -f "$REPO_DIR/pm/projects.txt" ]]; then
