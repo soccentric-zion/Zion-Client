@@ -263,7 +263,9 @@ spdlog::set_level(spdlog::level::debug);// Change from ::info
 ``` --- ### Getting Help - **Check logs**: `journalctl -u zion-client.service -n 200`
 - **Inspect spool**: `sqlite3/var/lib/zion/spool/spool.db ".tables"`
 - **Test connectivity**: `grpcurl -plaintext <server_ip>:50051 list`
-- **GitHub Issues**: Report bugs with full logs and config (redact sensitive data) --- ## License [Specify license here — e.g., MIT, Apache 2.0, Proprietary] --- ## Contributing 1. Fork the repository
+- **GitHub Issues**: Report bugs with full logs and config (redact sensitive data) --- ## License
+
+MIT. See [LICENSE](LICENSE). --- ## Contributing 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/my-adapter`)
 3. Commit changes (`git commit -am 'Add XYZ adapter'`)
 4. Push to branch (`git push origin feature/my-adapter`)
