@@ -26,14 +26,14 @@ DOCKER_CROSS_BUILD_DIR := $(DOCKER_SRC_DIR)/build/cross
 # Host architecture as shown by file(1) (e.g. x86-64, aarch64)
 HOST_ARCH := $(shell uname -m | sed 's/x86_64/x86-64/')
 
-# IP addresses for NVIDIA devices
+# IP addresses for target devices
 IP_A := 192.168.1.3
 IP_B := 192.168.1.13
 
 # User/Password for SSH/SCP
-USER := nvidia
-PASS := nvidia
-SSHPASS := sshpass -p $(PASS)
+USER := $(or $(HAL_SSH_USER),root)
+PASS := $(HAL_SSH_PASS)
+SSHPASS := $(if $(PASS),sshpass -p $(PASS))
 SSH := $(SSHPASS) ssh -o StrictHostKeyChecking=no
 SCP := $(SSHPASS) scp -o StrictHostKeyChecking=no
 
@@ -91,7 +91,7 @@ list: ## List available test applications
 # --init: use tini as PID 1 to properly propagate signals to child processes (e.g. ninja)
 # ccache volume: persist compilation cache across docker runs
 # Zion_ROOT is mounted so ../Zion-HAL/protos and ../Zion-HAL/src resolve inside the container.
-DOCKER_RUN := docker run --rm -t --init --platform linux/arm64 -v $(Zion_ROOT):/workspace -v ccache-zion-client:/home/rpi/.ccache $(DOCKER_IMAGE) bash -c
+DOCKER_RUN := docker run --rm -t --init --platform linux/arm64 -v $(Zion_ROOT):/workspace -v ccache-zion-client:/home/builder/.ccache $(DOCKER_IMAGE) bash -c
 
 docker-install: ## Install Docker if not present
 	@if ! command -v docker > /dev/null 2>&1; then \
@@ -127,7 +127,7 @@ docker-clean: docker-image ## Clean Docker build artifacts
 
 docker-shell: docker-image ## Start Docker shell for development
 	@echo "Starting Docker shell for development..."
-	docker run -it --rm --platform linux/arm64 -v $(Zion_ROOT):/workspace -v ccache-zion-client:/home/rpi/.ccache $(DOCKER_IMAGE) bash
+	docker run -it --rm --platform linux/arm64 -v $(Zion_ROOT):/workspace -v ccache-zion-client:/home/builder/.ccache $(DOCKER_IMAGE) bash
 
 # =============================================================================
 # Deploy & Run (on target device)
